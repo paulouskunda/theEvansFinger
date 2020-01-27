@@ -59,7 +59,7 @@ public class Database {
 //    , BufferedImage image
     public boolean insertStudent(String values[]){
         boolean check = false;
-        
+       
         try {
             String sql = "INSERT INTO STUDENTINFORM(studentname, studentnumber, gender,   program, dob,yearofstudy) "
                     + "VALUES (?, ?, ?, ?,?, ?)";
