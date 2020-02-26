@@ -5,8 +5,11 @@
  */
 package theevansfingers;
 
+import database.Database;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.swing.JOptionPane;
+import logic.HoldVariables;
 
 /**
  *
@@ -19,6 +22,7 @@ public class RegisterCourses extends javax.swing.JFrame {
      */
     public RegisterCourses() {
         initComponents();
+        studentNumber.setText(HoldVariables.studentNumberAcross);
     }
 
     /**
@@ -38,6 +42,7 @@ public class RegisterCourses extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         coursename = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,6 +52,7 @@ public class RegisterCourses extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Tw Cen MT", 1, 18)); // NOI18N
         jLabel2.setText("Register Courses for:");
 
+        courseCode.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         courseCode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select", "ICT456", "ICT423", "ICT453", "ICT465" }));
         courseCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -58,11 +64,21 @@ public class RegisterCourses extends javax.swing.JFrame {
         textArea.setRows(5);
         jScrollPane1.setViewportView(textArea);
 
+        jLabel1.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
         jLabel1.setText("Pick course code:");
 
+        coursename.setFont(new java.awt.Font("Tw Cen MT", 1, 14)); // NOI18N
         coursename.setText("Course Name");
 
+        jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed", 1, 14)); // NOI18N
         jLabel3.setText("Selected Courses");
+
+        jButton1.setText("Register");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -73,23 +89,25 @@ public class RegisterCourses extends javax.swing.JFrame {
                 .addComponent(studentNumber, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(165, 165, 165))
             .addGroup(layout.createSequentialGroup()
-                .addGap(230, 230, 230)
-                .addComponent(courseCode, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
-                .addComponent(coursename)
-                .addGap(37, 37, 37))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(176, 176, 176)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 299, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(293, 293, 293)
-                        .addComponent(jLabel1))
+                        .addGap(279, 279, 279)
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(311, 311, 311)
-                        .addComponent(jLabel3)))
+                        .addGap(281, 281, 281)
+                        .addComponent(jLabel1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(230, 230, 230)
+                .addComponent(courseCode, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(coursename))
+                .addGap(37, 37, 37))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(188, 188, 188)
@@ -111,7 +129,9 @@ public class RegisterCourses extends javax.swing.JFrame {
                 .addComponent(jLabel3)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(112, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(44, 44, 44))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(55, 55, 55)
@@ -135,9 +155,20 @@ public class RegisterCourses extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Sorry course code already picked "+ course_code, "Already picked", WIDTH, null);
         } else {
         coursename.setText(selectedCourseName(course_code));
-        textArea.append(course_code+" "+studentNumber.getText()+"\n");
+        textArea.append(course_code+"\n");
+       
         }
     }//GEN-LAST:event_courseCodeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+       // = coursePicked.split(" ");
+          String inside[] = textArea.getText().split("\n");
+          String sn = studentNumber.getText();
+          Database db = new Database();
+          System.out.println(db.registerCourses(inside, sn));
+        System.out.println("\n"+Arrays.toString(inside));
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private String selectedCourseName(String courseCode){
         HashMap<String, String> hash = new HashMap<>();
@@ -186,6 +217,7 @@ public class RegisterCourses extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox courseCode;
     private javax.swing.JLabel coursename;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
