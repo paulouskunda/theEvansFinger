@@ -114,13 +114,17 @@ public class Database {
     public boolean searchStudent(String studentNumber){
         boolean check = false;
         try{
-            String sql = "SELECT * FROM studentinform where studentNumber = ?";
+            String sql = "SELECT * FROM studentinform WHERE studentNumber = ?";
             statement = con.prepareStatement(sql);
             
             statement.setString(1, studentNumber);
             
             resultSet = statement.executeQuery();
-            check = true;
+            if(resultSet.next()){
+                 System.out.print(resultSet.getString(2));
+                 check = true;
+            }
+           
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -151,25 +155,25 @@ public class Database {
             return check;
     }
     
-    public boolean registerCourses(String values[]){
+    public boolean registerCourses(String values[], String studentNumber){
         boolean check = false;
         
         try {
-            String sql = "INSERT INTO STUDENTINFORM(studentname, studentnumber, gender,   program, dob,yearofstudy) "
-                    + "VALUES (?, ?, ?, ?,?, ?)";
+            String sql = "INSERT INTO coursestaken(course_code, studentNumber) "
+                    + "VALUES (?, ?)";
             statement = con.prepareStatement(sql);
             
-            int num = 1;
-            
+            /*
+            * Loop through the array and add the values to the database
+            */
             for(int i=1; i<=values.length;i++){
-                statement.setString(i, values[i-1]);
-                num++;
+                statement.setString(1, values[i-1]);
+                statement.setString(2, studentNumber);
+                statement.execute();
             }
             
-            //statement.set
             
             
-            statement.execute();
             check = true;
             
         }catch(Exception e){
@@ -177,7 +181,10 @@ public class Database {
         }
         return check;
     }
-
+    
+    public boolean searchFinger(){
+        return false;
+    }
 }
 
 

@@ -118,7 +118,7 @@ public class StartClass extends javax.swing.JFrame {
         HoldVariables.courseLecturer = courseLecturer.getSelectedItem().toString();
         
         
-        new Home().setVisible(true);
+        new Homea().setVisible(true);
         this.dispose();
 
     }//GEN-LAST:event_jButton1ActionPerformed
