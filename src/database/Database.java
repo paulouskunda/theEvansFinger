@@ -15,7 +15,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.imageio.ImageIO;
+import logic.Students;
 
 /**
  *
@@ -185,6 +188,41 @@ public class Database {
     public boolean searchFinger(){
         return false;
     }
+    
+    
+    
+    //Return a result for all student 
+    
+    public List<Students> studentInfo(){
+        List<Students> studentList = new ArrayList<>();
+        
+        try {
+            String sql = "SELECT * FROM studentInform";
+            
+            statement = con.prepareStatement(sql);
+            
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                Students student = new Students();
+                student.setStudentName(resultSet.getString("studentName"));
+                student.setStudentNumber(resultSet.getString("studentNumber"));
+                student.setYearOfStudy(resultSet.getString("yearOfStudy"));
+                student.setProgram(resultSet.getString("program"));
+                student.setGender(resultSet.getString("gender"));
+                
+                
+                studentList.add(student);
+                
+            }
+            
+        }catch(Exception e) {
+           e.printStackTrace();
+        }
+        
+        return studentList;
+    }
+    
+//    public 
 }
 
 
