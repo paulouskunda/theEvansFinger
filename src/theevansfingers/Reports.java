@@ -19,7 +19,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import logic.Courses;
 import logic.Students;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -33,7 +37,7 @@ public class Reports extends javax.swing.JFrame {
     public Reports() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -155,6 +159,7 @@ public class Reports extends javax.swing.JFrame {
             table.setWidthPercentage(100);
             
             document.add(new Paragraph("=========================ALL STUDENTS INFORMATION======================= "));
+            document.add(new Paragraph("\n"));
             table.addCell(new PdfPCell(new Paragraph("STUDENT ID",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
             table.addCell(new PdfPCell(new Paragraph("STUDENT NAME",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
             table.addCell(new PdfPCell(new Paragraph("PROGRAM",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
@@ -172,9 +177,28 @@ public class Reports extends javax.swing.JFrame {
              
             }
           document.add(table);
+          
+          //Create a pie chart for the gender 
+         
           document.close();
             
         }
+    }
+    
+    private JFreeChart generatePieChart(){
+        DefaultPieDataset dataSet = new DefaultPieDataset();
+		dataSet.setValue("China", 19.64);
+		dataSet.setValue("India", 17.3);
+		dataSet.setValue("United States", 4.54);
+		dataSet.setValue("Indonesia", 3.4);
+		dataSet.setValue("Brazil", 2.83);
+		dataSet.setValue("Pakistan", 2.48);
+		dataSet.setValue("Bangladesh", 2.38);
+
+		JFreeChart chart = ChartFactory.createPieChart(
+				"World Population by countries", dataSet, true, true, false);
+
+		return chart;
     }
     
     
@@ -186,10 +210,42 @@ public class Reports extends javax.swing.JFrame {
             String filePath = dialog.getSelectedFile().getPath();
             
             
+              Database db = new Database();
             
+             List<Courses> courses = db.getAllCourses();
+
+            //Create the document 
+
+            Document document = new Document();
+            PdfWriter myWritter = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+            PdfPTable table = new PdfPTable(2);
+            document.open();
+            
+            float[] columnWidths =new float[] {2,2};
+            table.setWidths(columnWidths);
+            table.setWidthPercentage(100);
+            
+            document.add(new Paragraph("=========================ALL COURSES======================= "));
+            table.addCell(new PdfPCell(new Paragraph("COURSE NAME",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
+            table.addCell(new PdfPCell(new Paragraph("COURSE CODE",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
+            
+            
+            for(int i =0; i< courses.size(); i++){
+             table.addCell(new PdfPCell(new Paragraph( courses.get(i).getCourseName() ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
+             table.addCell(new PdfPCell(new Paragraph(courses.get(i).getCourseCode(),FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
+             
+            }
+            document.add(table);
+            document.close();
             
             
             }
+      
+    }
+    
+    
+    private void attendance(){
+        
     }
     /**
      * @param args the command line arguments

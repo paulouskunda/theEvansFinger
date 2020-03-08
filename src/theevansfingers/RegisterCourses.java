@@ -8,7 +8,9 @@ package theevansfingers;
 import database.Database;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.JOptionPane;
+import logic.Courses;
 import logic.HoldVariables;
 
 /**
@@ -16,15 +18,33 @@ import logic.HoldVariables;
  * @author Paulous
  */
 public class RegisterCourses extends javax.swing.JFrame {
-
+      private HashMap<String, String> hash;
     /**
      * Creates new form RegisterCourses
      */
     public RegisterCourses() {
         initComponents();
         studentNumber.setText(HoldVariables.studentNumberAcross);
+        loadCombo();
     }
-
+    //Load the combo box
+    
+    private void loadCombo(){
+        Database db = new Database();
+        List<Courses> courses = db.getAllCourses();
+           hash = new HashMap<>();
+        
+        for(int i=0; i<courses.size();i++){
+            String courseName = courses.get(i).getCourseName();
+            String courseCodes = courses.get(i).getCourseCode();
+            
+            courseCode.addItem(courseCodes);
+            hash.put(courseCodes, courseName);
+            System.out.print(courseName + " Nothing");
+        }
+        
+        
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,7 +74,7 @@ public class RegisterCourses extends javax.swing.JFrame {
         jLabel2.setText("Register Courses for:");
 
         courseCode.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
-        courseCode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select", "ICT456", "ICT423", "ICT453", "ICT465" }));
+        courseCode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select" }));
         courseCode.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 courseCodeActionPerformed(evt);
@@ -202,8 +222,7 @@ public class RegisterCourses extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private String selectedCourseName(String courseCode){
-        HashMap<String, String> hash = new HashMap<>();
-        hash.put("ICT456","Advanced Networking" );
+   
         
         String getTheName = hash.get(courseCode);
         System.out.print(getTheName);
@@ -241,6 +260,8 @@ public class RegisterCourses extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new RegisterCourses().setVisible(true);
+                RegisterCourses reg = new RegisterCourses();
+                reg.loadCombo();
             }
         });
     }

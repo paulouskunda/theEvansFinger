@@ -128,12 +128,8 @@
           <Font name="Tw Cen MT" size="14" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
+          <StringArray count="1">
             <StringItem index="0" value="Select"/>
-            <StringItem index="1" value="ICT456"/>
-            <StringItem index="2" value="ICT423"/>
-            <StringItem index="3" value="ICT453"/>
-            <StringItem index="4" value="ICT465"/>
           </StringArray>
         </Property>
       </Properties>

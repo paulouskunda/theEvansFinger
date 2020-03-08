@@ -5,6 +5,8 @@
  */
 package theevansfingers;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import logic.HoldVariables;
 
 /**
@@ -18,10 +20,14 @@ public class Home extends javax.swing.JFrame {
      */
     public Home() {
         initComponents();
-            courseCode.setVisible(false);
+        courseCode.setVisible(false);
         lecturer.setVisible(false);
         classStarted.setVisible(false);
         checkTheReturn();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, 
+        size.height/2 - getHeight()/2);
     }
 
     /**
@@ -48,6 +54,7 @@ public class Home extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Home Screen");
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Register"));
 
@@ -98,6 +105,11 @@ public class Home extends javax.swing.JFrame {
         });
 
         jButton4.setText("Add Courses");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Register Courses");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -135,12 +147,10 @@ public class Home extends javax.swing.JFrame {
                                 .addGap(20, 20, 20)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(lecturer)
-                                    .addGap(125, 125, 125)
-                                    .addComponent(classStarted))
-                                .addComponent(timeRemaining))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lecturer)
+                                .addGap(125, 125, 125)
+                                .addComponent(classStarted))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jButton7)
                                 .addGap(48, 48, 48)
@@ -153,6 +163,10 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(312, 312, 312))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(timeRemaining)
+                .addGap(335, 335, 335))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,7 +215,7 @@ public class Home extends javax.swing.JFrame {
               courseCode.setVisible(true);
               
               lecturer.setVisible(true);
-              lecturer.setText("Lecturer");
+              lecturer.setText("Lecturer: "+ HoldVariables.courseLecturer);
               
 
         }
@@ -216,6 +230,7 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         AddLecturer addLec = new AddLecturer();
         addLec.setVisible(true);
+          this.dispose();
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -224,7 +239,15 @@ public class Home extends javax.swing.JFrame {
         SearchStudent ser = new SearchStudent();
 //        this.add(ser);
         ser.setVisible(true);
+          this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        AddCourses addCourse = new AddCourses();
+        addCourse.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -237,7 +260,7 @@ public class Home extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

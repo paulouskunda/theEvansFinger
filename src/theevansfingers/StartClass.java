@@ -5,6 +5,10 @@
  */
 package theevansfingers;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.util.Calendar;
+import java.util.Date;
 import logic.HoldVariables;
 
 /**
@@ -18,6 +22,10 @@ public class StartClass extends javax.swing.JFrame {
      */
     public StartClass() {
         initComponents();
+        Toolkit toolkit = getToolkit();
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width/2 - getWidth()/2, 
+        size.height/2 - getHeight()/2);
     }
 
     /**
@@ -114,11 +122,13 @@ public class StartClass extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+//        Date date = Calendar.getInstance();
         HoldVariables.courseCode = courseCode.getSelectedItem().toString();
         HoldVariables.courseLecturer = courseLecturer.getSelectedItem().toString();
+        HoldVariables.startTime = "23:00hrs";
         
         
-        new Homea().setVisible(true);
+        new Home().setVisible(true);
         this.dispose();
 
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -134,7 +144,7 @@ public class StartClass extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }

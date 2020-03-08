@@ -5,6 +5,7 @@
  */
 package database;
 
+import com.digitalpersona.onetouch.DPFPGlobal;
 import com.digitalpersona.onetouch.DPFPTemplate;
 import com.mysql.jdbc.Connection;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
+import logic.Courses;
+import logic.Identity;
+import logic.PassableVariables;
 import logic.Students;
 
 /**
@@ -42,9 +46,6 @@ public class Database {
         return handler;
     }
 
-//    public DatabaseHandler(){
-//
-//    }
 
     public static Connection getCon(){
         try{
@@ -74,9 +75,6 @@ public class Database {
                 statement.setString(i, values[i-1]);
                 num++;
             }
-            
-            //statement.set
-            
             
             statement.execute();
             check = true;
@@ -158,6 +156,47 @@ public class Database {
             return check;
     }
     
+    public  List<Identity> getAllFinger(){
+        List<Identity> identityList = new ArrayList<>();
+        try{
+            String sql = "SELECT * FROM fingerprint";
+            statement = con.prepareStatement(sql);
+            
+            resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                //Trying passing it in byte form
+                byte[] finger = resultSet.getBytes("finger");
+                String studentNumber = resultSet.getString("studentNumber");
+                DPFPTemplate temp2 = DPFPGlobal.getTemplateFactory().createTemplate();
+                temp2.deserialize(finger);
+                Identity identity = new Identity(studentNumber,temp2  );
+                identityList.add(identity);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return identityList;
+    }
+    
+    public boolean addCourse(String courseName, String courseCode){
+        boolean check = false;
+        try{
+            String sql = "INSERT INTO courses(course_name, course_code) VALUES (?,?) ";
+            statement = con.prepareStatement(sql);
+            
+            statement.setString(1, courseName);
+            statement.setString(2, courseCode);
+            
+            statement.execute();
+            
+            check = true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return check;
+    }
+    
     public boolean registerCourses(String values[], String studentNumber){
         boolean check = false;
         
@@ -222,7 +261,57 @@ public class Database {
         return studentList;
     }
     
-//    public 
+    public List<PassableVariables> genderChart(){
+        List<PassableVariables> gender = new ArrayList<>();
+        
+        try{
+            //Select the number of student 
+            String sql = "Select (Select count(*) from studentinform where gender='Male') AS Male,"
+                    + "(Select count(*) from studentinform where gender='Female') AS Female";
+            
+            statement = con.prepareStatement(sql);
+            
+            resultSet = statement.executeQuery();
+            
+            while(resultSet.next()){
+            System.out.println(resultSet.getInt(1));
+            System.out.println(resultSet.getInt(2));
+            }
+
+            
+            
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return gender;
+    }
+    
+    public List<Courses> getAllCourses(){
+        List<Courses> coursesList = new ArrayList<>();
+        
+        try{
+            String sql = "SELECT * FROM courses";
+            statement = con.prepareStatement(sql);
+            
+            resultSet = statement.executeQuery();
+            
+            while(resultSet.next()){
+                Courses courses = new Courses();
+                courses.setCourseName(resultSet.getString("course_name"));
+                courses.setCourseCode(resultSet.getString("course_code"));
+                coursesList.add(courses);
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return coursesList;
+    }
+    
+    
+   
 }
 
 
