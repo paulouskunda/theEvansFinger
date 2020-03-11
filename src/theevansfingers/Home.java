@@ -7,7 +7,10 @@ package theevansfingers;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 import logic.HoldVariables;
+import logic.Identity;
+import logic.Students;
 
 /**
  *
@@ -198,9 +201,13 @@ public class Home extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+//        
         StartClass course = new StartClass();
         course.setVisible(rootPaneCheckingEnabled);
         this.dispose();
+        
+  
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -217,7 +224,21 @@ public class Home extends javax.swing.JFrame {
               lecturer.setVisible(true);
               lecturer.setText("Lecturer: "+ HoldVariables.courseLecturer);
               
-
+                   try {
+            VerificationForm form = new VerificationForm(this, (Students s, Identity id) -> {
+//                System.err.println(s.regNumber);
+            
+//                verifiedIcon.setIcon(new ImageIcon(getClass()
+//                        .getResource("/res/biometrics_passed.png")));
+////                if (id.picture != null) photo.setIcon(resize(id.picture));
+//                status.setText("VERIFIED");
+            });
+                form.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
+//            verifiedIcon.setIcon(new ImageIcon(getClass()
+//                    .getResource("/res/biometrics_failed.png")));
+        }
         }
     }
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed

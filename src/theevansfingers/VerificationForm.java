@@ -10,6 +10,8 @@ import logic.Students;
 
 
 public class VerificationForm extends CaptureForm {
+    
+    
     public interface Listener { void onVerify(Students s, Identity id); }
     final Listener listener;
 
@@ -17,6 +19,8 @@ public class VerificationForm extends CaptureForm {
         super(owner);
         this.listener = listener;
     }
+    
+    //
    
     @Override
     protected void init() {
@@ -41,6 +45,7 @@ public class VerificationForm extends CaptureForm {
                     if (result.isVerified()) {
                         makeReport("The fingerprint was VERIFIED.");
                         JOptionPane.showMessageDialog(null, "FINGERPRINT  WAS VERIFIED");
+                        
 //                        if (listener != null)
 //                            listener.onVerify(Student.load(i.regNumber), i);                        
                         return;
@@ -56,6 +61,11 @@ public class VerificationForm extends CaptureForm {
             }
 
         }
+    }
+    //Override the method 
+    @Override
+    public void closeWindow(){
+        setVisible(false);
     }
 
     private void updateStatus(int FAR) {

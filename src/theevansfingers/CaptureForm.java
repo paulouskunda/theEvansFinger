@@ -57,7 +57,10 @@ public class CaptureForm
 		
 		JButton quit = new JButton("Close");
                 quit.addActionListener((ActionEvent e) -> {
+                   
                     setVisible(false);
+                    
+                    
                 });
 
 		JPanel right = new JPanel(new BorderLayout());
@@ -93,7 +96,11 @@ public class CaptureForm
 		pack();
         setLocationRelativeTo(null);
 	}
-
+        
+        public void closeWindow(){
+            setVisible(false);
+        }
+    
 	protected void init()
 	{
 		capturer.addDataListener(new DPFPDataAdapter() {
