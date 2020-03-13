@@ -2,9 +2,17 @@ package theevansfingers;
 
 import com.digitalpersona.onetouch.*;
 import com.digitalpersona.onetouch.verification.*;
+import database.Database;
 import java.awt.Frame;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import javax.swing.*;
+import logic.HoldVariables;
 import logic.Identity;
 import logic.Students;
 
@@ -27,6 +35,7 @@ public class VerificationForm extends CaptureForm {
         super.init();
         this.setTitle("Fingerprint Verification");
         updateStatus(0);
+        runThis();
     }
 
     @Override
@@ -44,7 +53,14 @@ public class VerificationForm extends CaptureForm {
                     System.err.println("FAR = " + result.getFalseAcceptRate());
                     if (result.isVerified()) {
                         makeReport("The fingerprint was VERIFIED.");
-                        JOptionPane.showMessageDialog(null, "FINGERPRINT  WAS VERIFIED");
+                         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+                         LocalDateTime now = LocalDateTime.now();
+                         String time = dtf.format(now);
+                         Database db = new Database();
+                         db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, time);
+//                        JOptionPane.showMessageDialog(null, "FINGERPRINT  WAS VERIFIED");
+                        
+                        
                         
 //                        if (listener != null)
 //                            listener.onVerify(Student.load(i.regNumber), i);                        
@@ -62,6 +78,29 @@ public class VerificationForm extends CaptureForm {
 
         }
     }
+    
+       public void runThis(){
+         
+           Runnable runnable = () -> {};
+           
+             ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
+            final ScheduledFuture updateLog =  service.scheduleAtFixedRate(runnable, 5, 5, TimeUnit.SECONDS);
+            service.schedule(new Runnable() {
+                @Override
+                public void run() {
+                   
+                    System.out.println("Close the window in "+HoldVariables.countDownTime);
+                    
+                    service.shutdown();
+                    System.out.println(service.isShutdown());
+                    closeWindow();
+                }
+            }, HoldVariables.countDownTime, TimeUnit.SECONDS);
+  
+           }
+       
+    
     //Override the method 
     @Override
     public void closeWindow(){

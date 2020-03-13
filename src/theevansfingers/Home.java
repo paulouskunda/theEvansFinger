@@ -7,10 +7,17 @@ package theevansfingers;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import logic.HoldVariables;
 import logic.Identity;
 import logic.Students;
+import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  *
@@ -21,6 +28,8 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form Home2
      */
+       int counter = 10;
+       Boolean isIt = false;
     public Home() {
         initComponents();
         courseCode.setVisible(false);
@@ -47,7 +56,6 @@ public class Home extends javax.swing.JFrame {
         courseCode = new javax.swing.JLabel();
         lecturer = new javax.swing.JLabel();
         classStarted = new javax.swing.JLabel();
-        timeRemaining = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -55,6 +63,7 @@ public class Home extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Home Screen");
@@ -84,7 +93,7 @@ public class Home extends javax.swing.JFrame {
 
         classStarted.setText("Class Started At");
 
-        timeRemaining.setText("Time Remaining:");
+        timeRemaining.setText("0:0");
 
         jButton1.setText("Start A Class");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -130,6 +139,8 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jLabel2.setText("Time Remaining:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,35 +152,39 @@ public class Home extends javax.swing.JFrame {
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(242, 242, 242))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(courseCode)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton3)
-                                .addGap(20, 20, 20)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(courseCode)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jButton3)
+                                        .addGap(20, 20, 20)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jButton7)
+                                        .addGap(48, 48, 48)
+                                        .addComponent(jButton5)
+                                        .addGap(37, 37, 37)
+                                        .addComponent(jButton4))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lecturer)
+                                        .addGap(125, 125, 125)
+                                        .addComponent(classStarted))))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lecturer)
-                                .addGap(125, 125, 125)
-                                .addComponent(classStarted))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton7)
-                                .addGap(48, 48, 48)
-                                .addComponent(jButton5)
-                                .addGap(37, 37, 37)
-                                .addComponent(jButton4)))
+                                .addGap(306, 306, 306)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(timeRemaining)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addGap(37, 37, 37)
                         .addComponent(jButton6)
                         .addGap(32, 32, 32))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addGap(312, 312, 312))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(timeRemaining)
-                .addGap(335, 335, 335))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +195,9 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(lecturer)
                     .addComponent(classStarted))
                 .addGap(21, 21, 21)
-                .addComponent(timeRemaining)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(timeRemaining)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(29, 29, 29)
@@ -224,23 +241,67 @@ public class Home extends javax.swing.JFrame {
               lecturer.setVisible(true);
               lecturer.setText("Lecturer: "+ HoldVariables.courseLecturer);
               
-                   try {
-            VerificationForm form = new VerificationForm(this, (Students s, Identity id) -> {
-//                System.err.println(s.regNumber);
-            
-//                verifiedIcon.setIcon(new ImageIcon(getClass()
-//                        .getResource("/res/biometrics_passed.png")));
-////                if (id.picture != null) photo.setIcon(resize(id.picture));
-//                status.setText("VERIFIED");
-            });
-                form.setVisible(true);
-            } catch (Exception e) {
-                e.printStackTrace();
-//            verifiedIcon.setIcon(new ImageIcon(getClass()
-//                    .getResource("/res/biometrics_failed.png")));
-        }
+              Timer timer = new Timer(); //new timer
+              counter = 60; //setting the counter to 10 sec
+                TimerTask task = new TimerTask() {         
+                    public void run() {                
+                        timeRemaining.setText(Integer.toString(counter)); //the timer lable to counter.
+                        counter --;
+                        if (counter == -1){
+                            timer.cancel();                                       
+                        } else if(isIt){
+                            timer.cancel();
+                            isIt = false;
+                        }
+                    }
+                };
+                timer.scheduleAtFixedRate(task, 1000, 1000); // =  timer.scheduleAtFixedRate(task, delay, period);
+                HoldVariables.countDownTime = counter;
+                
+                
+                runTheInternalScreen();
+  
+             
         }
     }
+ 
+    private void runTheInternalScreen(){
+        Runnable runnable = () -> {};
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+
+                
+                final ScheduledFuture updateLog =  service.scheduleAtFixedRate(runnable, 5, 5, TimeUnit.SECONDS);
+            service.schedule(new Runnable() {
+                @Override
+                public void run() {
+                   openVerify();
+                    System.out.println("Close the window in "+HoldVariables.countDownTime);
+                    
+                    service.shutdown();
+                    System.out.println(service.isShutdown());
+                    
+                }
+            }, 2, TimeUnit.SECONDS);
+    }
+    
+    private void openVerify(){
+         try {
+                VerificationForm form = new VerificationForm(this, (Students s, Identity id) -> {
+                //                System.err.println(s.regNumber);
+    
+                //                verifiedIcon.setIcon(new ImageIcon(getClass()
+                //                        .getResource("/res/biometrics_passed.png")));
+                ////                if (id.picture != null) photo.setIcon(resize(id.picture));
+                //                status.setText("VERIFIED");
+                });
+                    form.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+    //            verifiedIcon.setIcon(new ImageIcon(getClass()
+    //                    .getResource("/res/biometrics_failed.png")));
+            }
+    }
+ 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         InsertFinger ins = new InsertFinger();
@@ -317,8 +378,9 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lecturer;
-    private javax.swing.JLabel timeRemaining;
+    private final javax.swing.JLabel timeRemaining = new javax.swing.JLabel();
     // End of variables declaration//GEN-END:variables
 }

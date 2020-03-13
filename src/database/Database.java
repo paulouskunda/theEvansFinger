@@ -178,6 +178,28 @@ public class Database {
         
         return identityList;
     }
+     public boolean registerStudentAttance(String studentNumber, String courseCode, String timeAttended){
+        boolean check = false;
+        try{
+            String sql = "INSERT INTO attandace(studentNumber, courseCode,timeAttend)) VALUES (?,?,?) ";
+            statement = con.prepareStatement(sql);
+            
+            statement.setString(1, studentNumber);
+            statement.setString(2, courseCode);
+            statement.setString(3, timeAttended);
+            
+            statement.execute();
+            
+            check = true;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return check;
+    }
+    
+    public boolean registerStudentAttance(){
+        return false;
+    }
     
     public boolean addCourse(String courseName, String courseCode){
         boolean check = false;
