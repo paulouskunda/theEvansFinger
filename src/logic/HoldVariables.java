@@ -18,4 +18,5 @@ public class HoldVariables {
     public static String sourceOfRequest = null;
     public static String startTime = null;
     public static int countDownTime = 0;
+    public static String manNumber = null;
 }

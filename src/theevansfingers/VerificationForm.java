@@ -5,6 +5,7 @@ import com.digitalpersona.onetouch.verification.*;
 import database.Database;
 import java.awt.Frame;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.Executors;
@@ -55,9 +56,12 @@ public class VerificationForm extends CaptureForm {
                         makeReport("The fingerprint was VERIFIED.");
                          DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
                          LocalDateTime now = LocalDateTime.now();
-                         String time = dtf.format(now);
+                         String time = dtf.format(now);   
+//                         DateTimeFormatter date = DateTimeFormatter.ofPattern("HH:mm:ss");
+                         LocalDate today = LocalDate.now();
+//                         String dateToday = date.format(today);
                          Database db = new Database();
-                         db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, time);
+                         db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, time, HoldVariables.manNumber ,String.valueOf(today));
 //                        JOptionPane.showMessageDialog(null, "FINGERPRINT  WAS VERIFIED");
                         
                         

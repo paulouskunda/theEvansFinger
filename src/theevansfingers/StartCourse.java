@@ -5,6 +5,10 @@
  */
 package theevansfingers;
 
+import database.Database;
+import java.util.HashMap;
+import java.util.List;
+import logic.Courses;
 import logic.HoldVariables;
 
 /**
@@ -12,12 +16,30 @@ import logic.HoldVariables;
  * @author Paulous
  */
 public class StartCourse extends javax.swing.JPanel {
+      private HashMap<String, String> hash;
 
     /**
      * Creates new form StartCourse
      */
     public StartCourse() {
         initComponents();
+    }
+    
+    private void loadCombo(){
+        Database db = new Database();
+        List<Courses> courses = db.getAllCourses();
+           hash = new HashMap<>();
+        
+        for(int i=0; i<courses.size();i++){
+            String courseName = courses.get(i).getCourseName();
+            String courseCodes = courses.get(i).getCourseCode();
+            
+            courseCode.addItem(courseCodes);
+            hash.put(courseCodes, courseName);
+            System.out.print(courseName + " Nothing");
+        }
+        
+        
     }
 
     /**

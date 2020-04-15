@@ -5,17 +5,23 @@
  */
 package theevansfingers;
 
+import database.Database;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import logic.Courses;
 import logic.HoldVariables;
+import logic.Lecturer;
 
 /**
  *
  * @author Paulous
  */
 public class StartClass extends javax.swing.JFrame {
+      private HashMap<String, String> hash;
 
     /**
      * Creates new form StartClass
@@ -26,8 +32,39 @@ public class StartClass extends javax.swing.JFrame {
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width/2 - getWidth()/2, 
         size.height/2 - getHeight()/2);
+        loadCombo();
+        loadLecturer();
     }
-
+  private void loadCombo(){
+        Database db = new Database();
+        List<Courses> courses = db.getAllCourses();
+           hash = new HashMap<>();
+        
+        for(int i=0; i<courses.size();i++){
+            String courseName = courses.get(i).getCourseName();
+            String courseCodes = courses.get(i).getCourseCode();
+            
+            courseCode.addItem(courseCodes);
+            hash.put(courseCodes, courseName);
+            System.out.print(courseName + " Nothing");
+        }
+   
+    }  
+  private void loadLecturer(){
+        Database db = new Database();
+        List<Lecturer> lecturer = db.getAllLecturer();
+           hash = new HashMap<>();
+        
+        for(int i=0; i<lecturer.size();i++){
+            String lecturerName = lecturer.get(i).getLecturerName();
+            String manNumber = lecturer.get(i).getManNumber();
+            
+            courseLecturer.addItem(manNumber);
+            hash.put(manNumber, lecturerName);
+            System.out.print(lecturerName + " ");
+        }
+   
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,13 +87,22 @@ public class StartClass extends javax.swing.JFrame {
 
         jPanel1.setName("Start a Course"); // NOI18N
 
-        courseCode.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "ICT 401", "ICT 487", "ICT 345" }));
+        courseCode.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseCodeActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Course Code:");
 
         jLabel2.setText("Course Lecturer");
 
         courseLecturer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Dr. Simfukwe", "Dr. Chembe", "Dr. Zimba" }));
+        courseLecturer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                courseLecturerActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Start Course");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -126,12 +172,21 @@ public class StartClass extends javax.swing.JFrame {
         HoldVariables.courseCode = courseCode.getSelectedItem().toString();
         HoldVariables.courseLecturer = courseLecturer.getSelectedItem().toString();
         HoldVariables.startTime = "23:00hrs";
+        HoldVariables.manNumber = hash.get(courseLecturer.getSelectedItem().toString());
         
         
         new Home().setVisible(true);
         this.dispose();
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void courseLecturerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseLecturerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_courseLecturerActionPerformed
+
+    private void courseCodeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_courseCodeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_courseCodeActionPerformed
 
     /**
      * @param args the command line arguments

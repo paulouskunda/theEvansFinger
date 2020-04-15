@@ -21,6 +21,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import logic.Courses;
 import logic.Identity;
+import logic.Lecturer;
 import logic.PassableVariables;
 import logic.Students;
 
@@ -178,23 +179,50 @@ public class Database {
         
         return identityList;
     }
-     public boolean registerStudentAttance(String studentNumber, String courseCode, String timeAttended){
-        boolean check = false;
+     public String registerStudentAttance(String studentNumber, String courseCode, String timeAttended, String mannumber, String dateOfClass){
+        String check = "false";
+        
+        
+        
         try{
-            String sql = "INSERT INTO attandace(studentNumber, courseCode,timeAttend)) VALUES (?,?,?) ";
-            statement = con.prepareStatement(sql);
             
+            //Select the student exists in the system with data
+            
+            String SQLSelect = "SELECT * FROM attandace WHERE studentNumber = ? AND courseCode = ? AND dateOfClass = ?";
+            
+            statement = con.prepareStatement(SQLSelect);
             statement.setString(1, studentNumber);
             statement.setString(2, courseCode);
-            statement.setString(3, timeAttended);
+            statement.setString(3, dateOfClass);
             
-            statement.execute();
+            resultSet = statement.executeQuery();
             
-            check = true;
+            if(resultSet.next()){
+                return "already";
+            }else {
+                String sql = "INSERT INTO attandace(studentNumber, courseCode,timeAttend, mannumber, dateOfClass)) VALUES (?,?,?,?,?) ";
+                statement = con.prepareStatement(sql);
+
+                statement.setString(1, studentNumber);
+                statement.setString(2, courseCode);
+                statement.setString(3, timeAttended);
+                statement.setString(4, mannumber);
+                statement.setString(5, dateOfClass);
+
+                statement.execute();
+            
+                return "studentAdded";
+            }
+
+            
+            
+         
         }catch(Exception e){
             e.printStackTrace();
+            
+            return "false";
         }
-        return check;
+      
     }
     
     public boolean registerStudentAttance(){
@@ -330,6 +358,28 @@ public class Database {
         }
         
         return coursesList;
+    } 
+    public List<Lecturer> getAllLecturer(){
+        List<Lecturer> lecturerList = new ArrayList<>();
+        
+        try{
+            String sql = "SELECT * FROM lecturer";
+            statement = con.prepareStatement(sql);
+            
+            resultSet = statement.executeQuery();
+            
+            while(resultSet.next()){
+                Lecturer lecturer = new Lecturer();
+                lecturer.setLecturerName(resultSet.getString("fullName"));
+                lecturer.setManNumber(resultSet.getString("mannumber"));
+                lecturerList.add(lecturer);
+            }
+            
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        return lecturerList;
     }
     
     
