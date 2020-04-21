@@ -188,12 +188,12 @@ public class Database {
             
             //Select the student exists in the system with data
             
-            String SQLSelect = "SELECT * FROM attandace WHERE studentNumber = ? AND courseCode = ? AND dateOfClass = ?";
+            String SQLSelect = "SELECT * FROM attandace WHERE studentNumber = ?";
             
             statement = con.prepareStatement(SQLSelect);
             statement.setString(1, studentNumber);
-            statement.setString(2, courseCode);
-            statement.setString(3, dateOfClass);
+            // statement.setString(2, courseCode);
+            // statement.setString(3, dateOfClass);
             
             resultSet = statement.executeQuery();
             
@@ -337,6 +337,37 @@ public class Database {
         return gender;
     }
     
+    public String loginDetails(String username, String password){
+        try{
+            String sql = "SELECT * FROM admin WHERE username = ? AND password = ?";
+            statement = con.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setString(2, password);
+            
+            resultSet= statement.executeQuery();
+            if(resultSet.next()){
+                return "trueAdmin";
+            }else{
+                   String sqlLecturer = "SELECT * FROM lecturer WHERE username = ? AND password = ?";
+                    statement = con.prepareStatement(sqlLecturer);
+                    statement.setString(1, username);
+                    statement.setString(2, password);
+
+                    resultSet= statement.executeQuery();
+                    
+                    if(resultSet.next()){
+                        return "trueLecturer";
+                    }else {
+                        return "WrongLoginDetails";
+                    }
+            
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+            return "An Error occured";
+        }
+  
+    }
     public List<Courses> getAllCourses(){
         List<Courses> coursesList = new ArrayList<>();
         

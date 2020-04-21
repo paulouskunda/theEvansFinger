@@ -61,9 +61,16 @@ public class VerificationForm extends CaptureForm {
                          LocalDate today = LocalDate.now();
 //                         String dateToday = date.format(today);
                          Database db = new Database();
-                         db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, time, HoldVariables.manNumber ,String.valueOf(today));
+                         String returnedValue = db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, time, HoldVariables.manNumber ,String.valueOf(today));
 //                        JOptionPane.showMessageDialog(null, "FINGERPRINT  WAS VERIFIED");
-                        
+                        	
+                         if (returnedValue.equals("already")) {
+                         	System.out.println("Student already registered");
+                         }else if (returnedValue.equals("studentAdded")) {
+                         	System.out.println("Registered");
+                         }else {
+                         	System.out.println("An error took place");
+                         }
                         
                         
 //                        if (listener != null)

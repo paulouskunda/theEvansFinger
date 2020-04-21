@@ -19,4 +19,6 @@ public class HoldVariables {
     public static String startTime = null;
     public static int countDownTime = 0;
     public static String manNumber = null;
+    public static String lecturerName = null;
+    public static String adminName = null;
 }

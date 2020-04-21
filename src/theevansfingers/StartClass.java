@@ -22,6 +22,7 @@ import logic.Lecturer;
  */
 public class StartClass extends javax.swing.JFrame {
       private HashMap<String, String> hash;
+      private HashMap<String, String> hashLecturer;
 
     /**
      * Creates new form StartClass
@@ -60,7 +61,7 @@ public class StartClass extends javax.swing.JFrame {
             String manNumber = lecturer.get(i).getManNumber();
             
             courseLecturer.addItem(manNumber);
-            hash.put(manNumber, lecturerName);
+            hash.put(lecturerName,manNumber);
             System.out.print(lecturerName + " ");
         }
    
