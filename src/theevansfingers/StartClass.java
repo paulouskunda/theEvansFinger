@@ -22,7 +22,11 @@ import logic.Lecturer;
  */
 public class StartClass extends javax.swing.JFrame {
       private HashMap<String, String> hash;
+<<<<<<< HEAD
       private HashMap<String, String> hashLecturer;
+=======
+       private HashMap<String, String> hashlecturer;
+>>>>>>> e962359a66ff0d185eb630040f0fa7ddb7f43882
 
     /**
      * Creates new form StartClass
@@ -54,14 +58,20 @@ public class StartClass extends javax.swing.JFrame {
   private void loadLecturer(){
         Database db = new Database();
         List<Lecturer> lecturer = db.getAllLecturer();
-           hash = new HashMap<>();
+           hashlecturer = new HashMap<>();
         
         for(int i=0; i<lecturer.size();i++){
             String lecturerName = lecturer.get(i).getLecturerName();
             String manNumber = lecturer.get(i).getManNumber();
             
+<<<<<<< HEAD
             courseLecturer.addItem(manNumber);
             hash.put(lecturerName,manNumber);
+=======
+            
+            courseLecturer.addItem(lecturerName);
+            hashlecturer.put(lecturerName,manNumber);
+>>>>>>> e962359a66ff0d185eb630040f0fa7ddb7f43882
             System.out.print(lecturerName + " ");
         }
    
@@ -98,7 +108,6 @@ public class StartClass extends javax.swing.JFrame {
 
         jLabel2.setText("Course Lecturer");
 
-        courseLecturer.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Dr. Simfukwe", "Dr. Chembe", "Dr. Zimba" }));
         courseLecturer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 courseLecturerActionPerformed(evt);
@@ -173,7 +182,8 @@ public class StartClass extends javax.swing.JFrame {
         HoldVariables.courseCode = courseCode.getSelectedItem().toString();
         HoldVariables.courseLecturer = courseLecturer.getSelectedItem().toString();
         HoldVariables.startTime = "23:00hrs";
-        HoldVariables.manNumber = hash.get(courseLecturer.getSelectedItem().toString());
+        HoldVariables.manNumber = hashlecturer.get(courseLecturer.getSelectedItem().toString());
+        System.out.print(HoldVariables.manNumber);
         
         
         new Home().setVisible(true);
