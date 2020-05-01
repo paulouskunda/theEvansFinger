@@ -22,11 +22,8 @@ import logic.Lecturer;
  */
 public class StartClass extends javax.swing.JFrame {
       private HashMap<String, String> hash;
-<<<<<<< HEAD
       private HashMap<String, String> hashLecturer;
-=======
-       private HashMap<String, String> hashlecturer;
->>>>>>> e962359a66ff0d185eb630040f0fa7ddb7f43882
+
 
     /**
      * Creates new form StartClass
@@ -58,20 +55,15 @@ public class StartClass extends javax.swing.JFrame {
   private void loadLecturer(){
         Database db = new Database();
         List<Lecturer> lecturer = db.getAllLecturer();
-           hashlecturer = new HashMap<>();
+           hashLecturer = new HashMap<>();
         
         for(int i=0; i<lecturer.size();i++){
             String lecturerName = lecturer.get(i).getLecturerName();
             String manNumber = lecturer.get(i).getManNumber();
-            
-<<<<<<< HEAD
-            courseLecturer.addItem(manNumber);
-            hash.put(lecturerName,manNumber);
-=======
+
             
             courseLecturer.addItem(lecturerName);
-            hashlecturer.put(lecturerName,manNumber);
->>>>>>> e962359a66ff0d185eb630040f0fa7ddb7f43882
+            hashLecturer.put(lecturerName,manNumber);
             System.out.print(lecturerName + " ");
         }
    
@@ -182,7 +174,7 @@ public class StartClass extends javax.swing.JFrame {
         HoldVariables.courseCode = courseCode.getSelectedItem().toString();
         HoldVariables.courseLecturer = courseLecturer.getSelectedItem().toString();
         HoldVariables.startTime = "23:00hrs";
-        HoldVariables.manNumber = hashlecturer.get(courseLecturer.getSelectedItem().toString());
+        HoldVariables.manNumber = hashLecturer.get(courseLecturer.getSelectedItem().toString());
         System.out.print(HoldVariables.manNumber);
         
         

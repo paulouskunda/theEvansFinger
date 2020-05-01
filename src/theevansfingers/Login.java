@@ -62,7 +62,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel3.setText("LOGIN SCREEN");
 
-        password_field.setText("jPasswordField1");
+        password_field.setToolTipText("password field");
 
         error_message.setForeground(new java.awt.Color(255, 0, 0));
 
@@ -134,7 +134,9 @@ public class Login extends javax.swing.JFrame {
             openHome();
         }else if(returnValue.equalsIgnoreCase("trueLecturer")){
             HoldVariables.lecturerName = username;
-            openHome();
+            Lecturer lecturer = new Lecturer();
+            lecturer.setVisible(true);
+            this.dispose();
         }else if(returnValue.equalsIgnoreCase("WrongLoginDetails")){
             error_message.setText("Wrong Login Details");
 //            openHome();

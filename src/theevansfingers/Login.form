@@ -121,7 +121,7 @@
     </Component>
     <Component class="javax.swing.JPasswordField" name="password_field">
       <Properties>
-        <Property name="text" type="java.lang.String" value="jPasswordField1"/>
+        <Property name="toolTipText" type="java.lang.String" value="password field"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="error_message">

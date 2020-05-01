@@ -16,6 +16,24 @@ public class Students {
     private String yearOfStudy;
     private String dob;
     private String gender;
+    private int totalClassAttended;
+    private String courseName;
+
+    public int getTotalClassAttended() {
+        return totalClassAttended;
+    }
+
+    public void setTotalClassAttended(int totalClassAttended) {
+        this.totalClassAttended = totalClassAttended;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
 
     public String getStudentName() {
         return studentName;

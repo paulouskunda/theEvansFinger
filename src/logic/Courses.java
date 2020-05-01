@@ -12,6 +12,15 @@ package logic;
 public class Courses {
     private String courseName;
     private String courseCode;
+    private int totalCourse;
+
+    public int getTotalCourse() {
+        return totalCourse;
+    }
+
+    public void setTotalCourse(int totalCourse) {
+        this.totalCourse = totalCourse;
+    }
 
     public Courses() {
     }
