@@ -1,3 +1,4 @@
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -52,7 +53,7 @@ public class Database {
     public static Connection getCon(){
         try{
             Class.forName("com.mysql.jdbc.Driver");
-             con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/theevansfinger","root","");
+             con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/finalyearproject","root","");
             return con;
         } catch (SQLException e){
             return null;
@@ -189,19 +190,21 @@ public class Database {
             
             //Select the student exists in the system with data
             
-            String SQLSelect = "SELECT * FROM attandace WHERE studentNumber = ?";
+
+            String SQLSelect = "SELECT * FROM attendance WHERE studentNumber = ? And courseCode=? And dateOfClass=?";
             
             statement = con.prepareStatement(SQLSelect);
             statement.setString(1, studentNumber);
-            // statement.setString(2, courseCode);
-            // statement.setString(3, dateOfClass);
+             statement.setString(2, courseCode);
+             statement.setString(3, dateOfClass);
+
             
             resultSet = statement.executeQuery();
             
             if(resultSet.next()){
                 return "already";
             }else {
-                String sql = "INSERT INTO attandace(studentNumber, courseCode,timeAttend, mannumber, dateOfClass)) VALUES (?,?,?,?,?) ";
+                String sql = "INSERT INTO attendance(studentNumber, courseCode,timeAttend, mannumber, dateOfClass) VALUES (?,?,?,?,?) ";
                 statement = con.prepareStatement(sql);
 
                 statement.setString(1, studentNumber);
@@ -437,6 +440,7 @@ public class Database {
         return lecturerList;
     }
     
+
     //Get all students count for the attendance
      public List<Students> getAllStudentAttendance(String studentNumber){
         List<Students> studentList = new ArrayList<>();
@@ -541,3 +545,4 @@ public class Database {
         return attendanceList;
     }
 }
+
