@@ -242,7 +242,7 @@ public class Home extends javax.swing.JFrame {
               lecturer.setText("Lecturer: "+ HoldVariables.courseLecturer);
               
               Timer timer = new Timer(); //new timer
-              counter = 60; //setting the counter to 10 sec
+              counter = 120; //setting the counter to 10 sec
                 TimerTask task = new TimerTask() {         
                     public void run() {                
                         timeRemaining.setText(Integer.toString(counter)); //the timer lable to counter.
