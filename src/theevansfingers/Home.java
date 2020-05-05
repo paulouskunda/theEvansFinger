@@ -37,6 +37,7 @@ public class Home extends javax.swing.JFrame {
         lecturer.setVisible(false);
         classStarted.setVisible(false);
         checkTheReturn();
+        lateComer();
 //        Toolkit toolkit = getToolkit();
 //        Dimension size = toolkit.getScreenSize();
 //        setLocation(size.width/2 - getWidth()/2, 
@@ -260,7 +261,7 @@ public class Home extends javax.swing.JFrame {
               lecturer.setText("Lecturer: "+ HoldVariables.courseLecturer);
               
               Timer timer = new Timer(); //new timer
-              counter = 120; //setting the counter to 10 sec
+              counter = 40; //setting the counter to 10 sec
                 TimerTask task = new TimerTask() {         
                     public void run() {                
                         timeRemaining.setText(Integer.toString(counter)); //the timer lable to counter.
@@ -283,6 +284,13 @@ public class Home extends javax.swing.JFrame {
         }
     }
  
+     private void lateComer() {
+         if(HoldVariables.lateComers != null){
+             System.out.print("Is this called");
+             openVerify();
+         }
+    }
+ 
     private void runTheInternalScreen(){
         Runnable runnable = () -> {};
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
@@ -297,7 +305,7 @@ public class Home extends javax.swing.JFrame {
                     
                     service.shutdown();
                     System.out.println(service.isShutdown());
-                    
+                    lateComer();
                 }
             }, 2, TimeUnit.SECONDS);
     }
@@ -420,4 +428,6 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel lecturer;
     private final javax.swing.JLabel timeRemaining = new javax.swing.JLabel();
     // End of variables declaration//GEN-END:variables
+
+
 }

@@ -194,12 +194,14 @@ public class Database {
      * @param dateOfClass
      * @return
      */
-    public String registerStudentAttance(String studentNumber, String courseCode, String timeAttended, String mannumber, String dateOfClass) {
+    public String registerStudentAttance(String studentNumber, String courseCode, 
+            String timeAttended, String mannumber, String dateOfClass, String status) {
         String check = "false";
 
         try {
             //Select the student exists in the system with data
-            String SQLSelect = "SELECT * FROM attendance WHERE studentNumber = ? And courseCode=? And dateOfClass=?";
+            String SQLSelect = "SELECT * FROM attendance "
+                    + "WHERE studentNumber = ? And courseCode=? And dateOfClass=?";
 
             statement = con.prepareStatement(SQLSelect);
             statement.setString(1, studentNumber);
@@ -211,7 +213,8 @@ public class Database {
             if (resultSet.next()) {
                 return "already";
             } else {
-                String sql = "INSERT INTO attendance(studentNumber, courseCode,timeAttend, mannumber, dateOfClass) VALUES (?,?,?,?,?) ";
+                String sql = "INSERT INTO attendance(studentNumber, courseCode,timeAttend,"
+                        + " mannumber, dateOfClass, status) VALUES (?,?,?,?,?,?) ";
                 statement = con.prepareStatement(sql);
 
                 statement.setString(1, studentNumber);
@@ -219,6 +222,8 @@ public class Database {
                 statement.setString(3, timeAttended);
                 statement.setString(4, mannumber);
                 statement.setString(5, dateOfClass);
+                statement.setString(6, status);
+                
 
                 statement.execute();
 
@@ -603,8 +608,9 @@ public class Database {
         List<Attendance> attendanceList = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM attendance "
-                    + "WHERE manNumber = ? AND courseCode = ? and dateOfClass = ?";
+            String sql = "SELECT * FROM attendance, studentinfo "
+                    + "WHERE manNumber = ? AND courseCode = ? AND dateOfClass = ? "
+                    + "AND attendance.studentNumber = studentinfo.studentNumber";
             statement = con.prepareStatement(sql);
             statement.setString(1, manNumber);
             statement.setString(2, courseCode);
@@ -615,7 +621,7 @@ public class Database {
             while (resultSet.next()) {
                 Attendance attend = new Attendance();
                 attend.setCourseName(resultSet.getString("courseCode"));
-                attend.setStudentName("NULL");
+                attend.setStudentName(resultSet.getString("studentName"));
                 attend.setStudentNumber(resultSet.getString("studentNumber"));
                 attend.setLateComingStatus(resultSet.getString("status"));
                 attendanceList.add(attend);

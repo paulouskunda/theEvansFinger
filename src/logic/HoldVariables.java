@@ -21,4 +21,5 @@ public class HoldVariables {
     public static String manNumber = null;
     public static String lecturerName = null;
     public static String adminName = null;
+    public static String lateComers = null;
 }

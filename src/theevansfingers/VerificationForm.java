@@ -57,12 +57,20 @@ public class VerificationForm extends CaptureForm {
                          DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
                          LocalDateTime now = LocalDateTime.now();
                          String time = dtf.format(now);   
-//                         DateTimeFormatter date = DateTimeFormatter.ofPattern("HH:mm:ss");
                          LocalDate today = LocalDate.now();
-//                         String dateToday = date.format(today);
                          Database db = new Database();
-                         String returnedValue = db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, time, HoldVariables.manNumber ,String.valueOf(today));
-//                        JOptionPane.showMessageDialog(null, "FINGERPRINT  WAS VERIFIED");
+                         String returnedValue = "";
+                         if(HoldVariables.lateComers == null){
+                           returnedValue = 
+                                 db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, 
+                                         time, HoldVariables.manNumber ,String.valueOf(today),"Present");
+                         }else {
+                             System.out.print("Here My Guy");
+                              returnedValue = 
+                                 db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, 
+                                         time, HoldVariables.manNumber ,String.valueOf(today), "Late");
+                         }
+                    
                         	
                          if (returnedValue.equals("already")) {
                          	System.out.println("Student already registered");
@@ -100,7 +108,11 @@ public class VerificationForm extends CaptureForm {
             service.schedule(new Runnable() {
                 @Override
                 public void run() {
-                   
+                   if(HoldVariables.lateComers == null){
+                       HoldVariables.lateComers = "Start This Shit";
+                   }else {
+                       HoldVariables.lateComers = null;
+                   }
                     System.out.println("Close the window in "+HoldVariables.countDownTime);
                     
                     service.shutdown();
