@@ -49,8 +49,8 @@ public class Lecturer extends javax.swing.JFrame {
 //        Dimension size = toolkit.getScreenSize();
 //        setLocation(size.width/2 - getWidth()/2, 
 //        size.height/2 - getHeight()/2);
-//        getLecturer();
-//        loadCombo();
+        getLecturer();
+        loadCombo();
         setSize(900,500);
     setLocation(250,150);
     setResizable(false);
@@ -118,7 +118,6 @@ public class Lecturer extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(900, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N

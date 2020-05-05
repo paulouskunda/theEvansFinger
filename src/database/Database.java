@@ -581,9 +581,10 @@ public class Database {
     public List<Courses> getManNumber(String number) {
         List<Courses> courseList = new ArrayList<>();
         try {
-            String sql = "SELECT DISTINCT(courseCode) FROM attendance WHERE mannumber = '100112'";
+            String sql = "SELECT DISTINCT(courseCode) FROM attendance WHERE mannumber = ?";
             statement = con.prepareStatement(sql);
-
+            statement.setString(1, number);
+            
             resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 Courses course = new Courses();
