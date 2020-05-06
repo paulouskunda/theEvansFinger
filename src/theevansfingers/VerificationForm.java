@@ -59,7 +59,7 @@ public class VerificationForm extends CaptureForm {
                          String time = dtf.format(now);   
                          LocalDate today = LocalDate.now();
                          Database db = new Database();
-                         String returnedValue = "";
+                         String returnedValue;
                          if(HoldVariables.lateComers == null){
                            returnedValue = 
                                  db.registerStudentAttance(i.regNumber, HoldVariables.courseCode, 

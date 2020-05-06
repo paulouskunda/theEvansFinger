@@ -40,6 +40,7 @@ public class Lecturer extends javax.swing.JFrame {
     String manNumber;
     String lecturerName;
     List<Courses> courses;
+    private Database db = new Database();
     /**
      * Creates new form Lecturer
      */
@@ -57,7 +58,6 @@ public class Lecturer extends javax.swing.JFrame {
     }
     
     private void getLecturer(){
-        Database db = new Database();
         
         List<logic.Lecturer> lecturer = db.getAllLecturer(HoldVariables.lecturerName);
            HashMap<String, String> hashLecturer = new HashMap<>();
@@ -74,7 +74,6 @@ public class Lecturer extends javax.swing.JFrame {
     }
     
     private void loadCombo(){
-        Database db = new Database();
         
          courses = db.getManNumber(manNumber);
         
@@ -82,6 +81,7 @@ public class Lecturer extends javax.swing.JFrame {
             for(int i=0; i<courses.size(); i++){
                 String courseName = courses.get(i).getCourseName();
                 courseCombo.addItem(courseName);
+                courseCombo1.addItem(courseName);
             }
         } 
                 
@@ -101,11 +101,13 @@ public class Lecturer extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         welcome = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
         courseCombo = new javax.swing.JComboBox();
+        courseCombo1 = new javax.swing.JComboBox();
         studentNumber = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        reasons = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -143,21 +145,32 @@ public class Lecturer extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 90, -1, -1));
 
-        getContentPane().add(courseCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 210, 163, -1));
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setText("Course Picker");
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 80, -1, -1));
+
+        getContentPane().add(courseCombo, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 210, 180, -1));
+
+        getContentPane().add(courseCombo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 250, -1));
 
         studentNumber.setMinimumSize(new java.awt.Dimension(70, 30));
         studentNumber.setPreferredSize(new java.awt.Dimension(100, 30));
+        studentNumber.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                studentNumberActionPerformed(evt);
+            }
+        });
         getContentPane().add(studentNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(495, 150, 250, -1));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Student Number");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 130, -1, 20));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jTextArea1.setMinimumSize(new java.awt.Dimension(70, 30));
-        jTextArea1.setPreferredSize(new java.awt.Dimension(70, 30));
-        jScrollPane1.setViewportView(jTextArea1);
+        reasons.setColumns(20);
+        reasons.setRows(5);
+        reasons.setMinimumSize(new java.awt.Dimension(70, 30));
+        reasons.setPreferredSize(new java.awt.Dimension(70, 30));
+        jScrollPane1.setViewportView(reasons);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(495, 210, 250, -1));
 
@@ -168,6 +181,11 @@ public class Lecturer extends javax.swing.JFrame {
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton3.setText("Update Record");
         jButton3.setPreferredSize(new java.awt.Dimension(160, 70));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 330, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -239,7 +257,6 @@ public class Lecturer extends javax.swing.JFrame {
                 try {
                 String filePath = dialog.getSelectedFile().getPath();
                 
-                Database db = new Database();
                 LocalDate today = LocalDate.now();
                 List<Attendance> attend = 
                         db.getAllAttendance(manNumber, courseCode, String.valueOf(today));
@@ -296,6 +313,35 @@ public class Lecturer extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jLabel8MouseClicked
 
+    private void studentNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentNumberActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_studentNumberActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+        String reason = reasons.getText();
+        String courseCode = courseCombo1.getSelectedItem().toString();
+        if(studentNumber.getText().isEmpty()){
+            JOptionPane.showMessageDialog(rootPane, "Student Number Can't Be Empty");
+        }else if(reason.isEmpty()){
+           JOptionPane.showMessageDialog(rootPane, "Reason Can't Be Empty");
+        }else {
+            String returnValue = db.updateTheLateComers(studentNumber.getText(), reason, courseCode);
+            switch (returnValue) {
+                case "Updated":
+                    JOptionPane.showMessageDialog(rootPane, "Updated");
+                    studentNumber.setText("");
+                    reasons.setText("");
+                    break;
+                case "Error":
+                    JOptionPane.showMessageDialog(rootPane, "An Error was encounter");
+                    break;
+            }
+        }
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -307,7 +353,7 @@ public class Lecturer extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -333,6 +379,7 @@ public class Lecturer extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox courseCombo;
+    private javax.swing.JComboBox courseCombo1;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -340,11 +387,12 @@ public class Lecturer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea reasons;
     private javax.swing.JTextField studentNumber;
     private javax.swing.JLabel welcome;
     // End of variables declaration//GEN-END:variables

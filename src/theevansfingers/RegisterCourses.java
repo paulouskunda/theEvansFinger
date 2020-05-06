@@ -76,7 +76,6 @@ public class RegisterCourses extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(900, 500));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         studentNumber.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N

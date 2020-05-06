@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import logic.Courses;
 import logic.Students;
 import org.jfree.chart.ChartFactory;
@@ -37,6 +38,7 @@ import org.jfree.data.general.DefaultPieDataset;
 public class Reports extends javax.swing.JFrame {
     //Get the database result
     private Database db = new Database();
+    private String courseCodeArray[] = null;
     /**
      * Creates new form Reports
      */
@@ -45,6 +47,7 @@ public class Reports extends javax.swing.JFrame {
         setSize(900,500);
     setLocation(250,150);
     setResizable(false);
+    loadCombo();
     }
     
     /**
@@ -54,6 +57,19 @@ public class Reports extends javax.swing.JFrame {
     private void loadStudents(){
         
     }
+    
+      private void loadCombo(){
+        List<Courses> courses = db.getAllCourses();
+            courseCodeArray = new String[courses.size()];
+        for(int i=0; i<courses.size();i++){
+            String courseName = courses.get(i).getCourseName();
+            String courseCodes = courses.get(i).getCourseCode();
+            courseCodeArray[i] = courseCodes;
+             
+            System.out.print(courseName + " Nothing");
+        }
+   
+    } 
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -166,7 +182,7 @@ public class Reports extends javax.swing.JFrame {
                 jButton3ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(96, 118, -1, -1));
+        getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 90, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/database/1A.jpg"))); // NOI18N
         jLabel2.setPreferredSize(new java.awt.Dimension(900, 500));
@@ -191,24 +207,26 @@ public class Reports extends javax.swing.JFrame {
         if(db.searchStudent(student)){
             printIndividualReport(student);
         }else {
-            System.out.print("Nigga");
+            System.out.println("Nigga");
         }
 
 
-//        try {
-//            // TODO add your handling code here:
-//
-//            printAllStudents();
-//        } catch (Exception ex) {
-//            Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         //Hard coded values
-        String courseCode = "ICT402";
+       int get = JOptionPane.showOptionDialog(rootPane, "Pick A Courses", null, WIDTH, WIDTH, null, courseCodeArray, rootPane);
+       String itemPicked = courseCodeArray[get];
+       System.out.println("\n"+itemPicked);
+       above85Percent(itemPicked);
+       
+    }//GEN-LAST:event_jButton3ActionPerformed
+    /**
+     * Print the report students above 85%
+     * @param courseCode 
+     */
+    private void above85Percent(String courseCode){
         List<Students> students = db.getAllCourseAttendance(courseCode);
         List<Courses> courses = db.getAllCourseCount();
         HashMap<String, Integer> studentHash = new HashMap();
@@ -234,7 +252,7 @@ public class Reports extends javax.swing.JFrame {
         
         JFileChooser dialog = new JFileChooser();
             //Rename the pdf at print stage
-            dialog.setSelectedFile(new File("85andMore.pdf"));
+            dialog.setSelectedFile(new File(courseCode+"Attendance85andMore.pdf"));
             int dialogResult = dialog.showSaveDialog(null);
             if (dialogResult==JFileChooser.APPROVE_OPTION){
             try {
@@ -252,7 +270,7 @@ public class Reports extends javax.swing.JFrame {
                 table.setWidths(columnWidths);
                 table.setWidthPercentage(100);
                 
-                document.add(new Paragraph("=============ALL STUDENTS 85% ATTENDANCE ============ "));
+                document.add(new Paragraph("=============ALL STUDENTS 85% ATTENDANCE "+courseCode+" ============ "));
                 
                 
                 document.add(new Paragraph("\n"));
@@ -275,7 +293,7 @@ public class Reports extends javax.swing.JFrame {
                     float percent = (students.get(i).getTotalClassAttended()/courseCount) * 100;
                     
                     //check for the percentage
-                    if(percent > 44){
+                    if(percent > 84){
                         table.addCell(new PdfPCell(new Paragraph( ""+students.get(i).getStudentName() ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
                         table.addCell(new PdfPCell(new Paragraph( ""+students.get(i).getStudentNumber() ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
                         table.addCell(new PdfPCell(new Paragraph( ""+students.get(i).getTotalClassAttended() ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
@@ -299,11 +317,104 @@ public class Reports extends javax.swing.JFrame {
             }
         
         }
+    }
+    
+    /**
+     * Print A report for below 85
+     * @param courseCode 
+     */
+    private void below85Percent(String courseCode){
+        List<Students> students = db.getAllCourseAttendance(courseCode);
+        List<Courses> courses = db.getAllCourseCount();
+        HashMap<String, Integer> studentHash = new HashMap();
+        HashMap<String, Integer> courseHash = new HashMap();
+       
+        
+        //for loop to itterate through the list
+        for(int i =0; i<students.size(); i++){
+            
+            String courseName = students.get(i).getCourseName();
+            int totalCount = students.get(i).getTotalClassAttended();
+            studentHash.put(courseName, totalCount);
+        }
+        
+          //for loop to itterate through the list
+        for(int i =0; i<courses.size(); i++){
+            
+            String courseName = courses.get(i).getCourseName();
+            int totalCount = courses.get(i).getTotalCourse();
+            courseHash.put(courseName, totalCount);
+        }
         
         
+        JFileChooser dialog = new JFileChooser();
+            //Rename the pdf at print stage
+            dialog.setSelectedFile(new File(courseCode+"Attendance85andBelow.pdf"));
+            int dialogResult = dialog.showSaveDialog(null);
+            if (dialogResult==JFileChooser.APPROVE_OPTION){
+            try {
+                String filePath = dialog.getSelectedFile().getPath();
+                
+                
+                //Create the document
+                
+                Document document = new Document();
+                PdfWriter myWritter = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+                PdfPTable table = new PdfPTable(5);
+                document.open();
+                
+                float[] columnWidths =new float[] {2,2,2,2,2};
+                table.setWidths(columnWidths);
+                table.setWidthPercentage(100);
+                
+                document.add(new Paragraph("=============ALL STUDENTS 85% ATTENDANCE "+courseCode+" ============ "));
+                
+                
+                document.add(new Paragraph("\n"));
+                table.addCell(new PdfPCell(new Paragraph("STUDENT NAME",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
+                table.addCell(new PdfPCell(new Paragraph("STUDENT ID",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
+                table.addCell(new PdfPCell(new Paragraph("Total Attended Classes",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
+                table.addCell(new PdfPCell(new Paragraph("Total Classes",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
+                table.addCell(new PdfPCell(new Paragraph("Percentage of Atttendance",FontFactory.getFont(FontFactory.TIMES_ROMAN,9,Font.BOLD))));
+                
+ 
+                /**
+                 * Loop through the list and print the value at each stage
+                 */
+                for(int i =0; i<students.size();i++){
+                    String courseName = students.get(i).getCourseName();
+                   
+                    //Get the count of the current course under view
+                    float courseCount = courseHash.get(courseName);
+                    
+                    float percent = (students.get(i).getTotalClassAttended()/courseCount) * 100;
+                    
+                    //check for the percentage
+                    if(percent < 85){
+                        table.addCell(new PdfPCell(new Paragraph( ""+students.get(i).getStudentName() ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
+                        table.addCell(new PdfPCell(new Paragraph( ""+students.get(i).getStudentNumber() ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
+                        table.addCell(new PdfPCell(new Paragraph( ""+students.get(i).getTotalClassAttended() ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
+                        table.addCell(new PdfPCell(new Paragraph( ""+ courseCount,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
+                        table.addCell(new PdfPCell(new Paragraph( ""+percent ,FontFactory.getFont(FontFactory.TIMES_ROMAN,8,Font.PLAIN))));
 
-    }//GEN-LAST:event_jButton3ActionPerformed
+                    }
+                }
 
+                document.add(table);
+                
+                //Create a pie chart for the gender
+                
+                document.close();
+                
+                System.out.println("Nice");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DocumentException ex) {
+                Logger.getLogger(Reports.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        
+        }
+    }
     private void studentNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentNumberActionPerformed
         // TODO add your handling code here:
     
@@ -312,6 +423,9 @@ public class Reports extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        Home home = new Home();
+        home.show();
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked

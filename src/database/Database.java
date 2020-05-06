@@ -17,6 +17,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.imageio.ImageIO;
@@ -582,7 +583,11 @@ public class Database {
 
         return courseList;
     }
-
+    /**
+     * 
+     * @param number
+     * @return 
+     */
     public List<Courses> getManNumber(String number) {
         List<Courses> courseList = new ArrayList<>();
         try {
@@ -603,14 +608,20 @@ public class Database {
         return courseList;
     }
 
-    //this is the register report
+    /**
+     * 
+     * @param manNumber
+     * @param courseCode
+     * @param dateOfClass
+     * @return 
+     */
     public List<Attendance> getAllAttendance(String manNumber, String courseCode, String dateOfClass) {
         List<Attendance> attendanceList = new ArrayList<>();
 
         try {
-            String sql = "SELECT * FROM attendance, studentinfo "
+            String sql = "SELECT * FROM attendance, studentinform "
                     + "WHERE manNumber = ? AND courseCode = ? AND dateOfClass = ? "
-                    + "AND attendance.studentNumber = studentinfo.studentNumber";
+                    + "AND attendance.studentNumber = studentinform.studentNumber";
             statement = con.prepareStatement(sql);
             statement.setString(1, manNumber);
             statement.setString(2, courseCode);
@@ -632,5 +643,37 @@ public class Database {
         }
 
         return attendanceList;
+    }
+    
+    /**
+     * 
+     * @param studentNumber
+     * @param reason
+     * @param courseCode
+     * @return 
+     */
+    public String updateTheLateComers(String studentNumber, String reason, String courseCode){
+        LocalDate today = LocalDate.now();
+
+        String sqlUpdate = "UPDATE `attendance` SET comment = ? "
+                + "WHERE studentNumber = ? AND dateOfClass = ? AND courseCode = ? AND status = ?";
+        
+        try{
+            statement = con.prepareStatement(sqlUpdate);
+            statement.setString(1, reason);
+            statement.setString(2, studentNumber);
+            statement.setString(3, String.valueOf(today));
+            statement.setString(4, courseCode);
+            statement.setString(5, "Late");
+            
+            statement.execute();
+            
+            return "Updated";
+        }catch(Exception e){
+            e.printStackTrace();
+            return "Error";
+        }
+
+        
     }
 }

@@ -48,11 +48,11 @@ public class SearchStudent extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(900, 500));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        getContentPane().add(studentNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 238, 40));
+        getContentPane().add(studentNumber, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 238, 40));
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel1.setText("Enter Student Number");
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, -1, 54));
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 90, -1, 54));
 
         jPanel3.setBackground(new java.awt.Color(0, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "BIOMETRIC CLASS ATTENDANCE", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
@@ -95,7 +95,7 @@ public class SearchStudent extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 240, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 240, -1, -1));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("Search");
@@ -105,7 +105,7 @@ public class SearchStudent extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 240, -1, -1));
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 240, -1, -1));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/database/1A.jpg"))); // NOI18N
         jLabel2.setMaximumSize(new java.awt.Dimension(900, 500));
@@ -130,6 +130,7 @@ public class SearchStudent extends javax.swing.JFrame {
                 RegisterCourses reg = new RegisterCourses();
                 reg.setVisible(true);
                 studentNumber.setText("");
+                this.dispose();
             }
             
         } else if(!db.searchStudent(studentNumber.getText()))  {
