@@ -86,13 +86,13 @@ public class Reports extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setUndecorated(true);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -153,6 +153,16 @@ public class Reports extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-8, 0, 910, 40));
+
+        jButton4.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
+        jButton4.setText("STUDENTS BELOW 85%");
+        jButton4.setPreferredSize(new java.awt.Dimension(160, 70));
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 90, -1, -1));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("Generate");
@@ -319,8 +329,34 @@ public class Reports extends javax.swing.JFrame {
         }
     }
     
+    
+    private void studentNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentNumberActionPerformed
+        // TODO add your handling code here:
+    
+        
+    }//GEN-LAST:event_studentNumberActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Home home = new Home();
+        home.show();
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        //Hard coded values
+       int get = JOptionPane.showOptionDialog(rootPane, "Pick A Courses", null, WIDTH, WIDTH, null, courseCodeArray, rootPane);
+       String itemPicked = courseCodeArray[get];
+       System.out.println("\n"+itemPicked);
+       below85Percent(itemPicked);}
     /**
-     * Print A report for below 85
+     * Print the report students above 85%
      * @param courseCode 
      */
     private void below85Percent(String courseCode){
@@ -349,7 +385,7 @@ public class Reports extends javax.swing.JFrame {
         
         JFileChooser dialog = new JFileChooser();
             //Rename the pdf at print stage
-            dialog.setSelectedFile(new File(courseCode+"Attendance85andBelow.pdf"));
+            dialog.setSelectedFile(new File(courseCode+"AttendanceBelow85%.pdf"));
             int dialogResult = dialog.showSaveDialog(null);
             if (dialogResult==JFileChooser.APPROVE_OPTION){
             try {
@@ -367,7 +403,7 @@ public class Reports extends javax.swing.JFrame {
                 table.setWidths(columnWidths);
                 table.setWidthPercentage(100);
                 
-                document.add(new Paragraph("=============ALL STUDENTS 85% ATTENDANCE "+courseCode+" ============ "));
+                document.add(new Paragraph("=============ALL STUDENTS BELOW 85% ATTENDANCE "+courseCode+" ============ "));
                 
                 
                 document.add(new Paragraph("\n"));
@@ -414,24 +450,9 @@ public class Reports extends javax.swing.JFrame {
             }
         
         }
-    }
-    private void studentNumberActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentNumberActionPerformed
-        // TODO add your handling code here:
     
         
-    }//GEN-LAST:event_studentNumberActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        Home home = new Home();
-        home.show();
-        this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
-        System.exit(0);
-    }//GEN-LAST:event_jLabel7MouseClicked
+    }//GEN-LAST:event_jButton4ActionPerformed
     
     private void printIndividualReport(String studentNumber) {
         
@@ -682,6 +703,7 @@ public class Reports extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel7;

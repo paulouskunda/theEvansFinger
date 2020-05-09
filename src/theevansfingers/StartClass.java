@@ -23,8 +23,13 @@ import logic.Lecturer;
  */
 public class StartClass extends javax.swing.JFrame {
       private HashMap<String, String> hash;
+
       private HashMap<String, String> hashLecturer;
       private  Database db = new Database();
+
+
+       private HashMap<String, String> hashlecturer;
+
 
 
     /**
@@ -71,10 +76,20 @@ public class StartClass extends javax.swing.JFrame {
             String lecturerName = lecturer.get(i).getLecturerName();
             String manNumber = lecturer.get(i).getManNumber();
 
+
             
             courseLecturer.addItem(lecturerName);
             hashLecturer.put(lecturerName,manNumber);
-            System.out.print(lecturerName + " ");
+
+            
+
+
+
+            
+//            courseLecturer.addItem(lecturerName);
+//            hashlecturer.put(lecturerName,manNumber);
+
+
         }
    
     }
