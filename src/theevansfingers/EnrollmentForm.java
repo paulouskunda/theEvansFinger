@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import logic.HoldVariables;
+import logic.Identity;
 import theevansfingers.InsertFinger;
 
 
@@ -36,14 +37,14 @@ public class EnrollmentForm extends CaptureForm {
         super.process(sample);
 
         try {
-//            for (Identity identity : Identity.loadAll()) {
-//                DPFPVerificationResult result = identity.verify(sample);
-//
-//                if (result.isVerified()) {
-//                    makeReport("THe fingerprint is already registered");
-//                    throw new IllegalArgumentException("FINGERPRINT ALREADY REGISTERED!");
-//                }
-//            }
+            for (Identity identity : Identity.loadAll()) {
+                DPFPVerificationResult result = identity.verify(sample);
+
+                if (result.isVerified()) {
+                    makeReport("THe fingerprint is already registered");
+                    throw new IllegalArgumentException("FINGERPRINT ALREADY REGISTERED!");
+                }
+            }
             makeReport("The fingerprint feature set was created.");
             DPFPFeatureSet features 
                     = extractFeatures(sample, DPFPDataPurpose.DATA_PURPOSE_ENROLLMENT);
@@ -51,6 +52,8 @@ public class EnrollmentForm extends CaptureForm {
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         } catch (DPFPImageQualityException ex) {
+        } catch (IOException ex) {
+            Logger.getLogger(EnrollmentForm.class.getName()).log(Level.SEVERE, null, ex);
         }  finally {
             updateStatus();
 
