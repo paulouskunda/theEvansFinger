@@ -625,7 +625,7 @@ public class Database {
             statement = con.prepareStatement(sql);
             statement.setString(1, manNumber);
             statement.setString(2, courseCode);
-            statement.setString(3, "2020-04-18");
+            statement.setString(3, dateOfClass);
 
             resultSet = statement.executeQuery();
 

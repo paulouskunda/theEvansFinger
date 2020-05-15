@@ -42,8 +42,8 @@ public class EnrollmentForm extends CaptureForm {
 
                 if (result.isVerified()) {
                     makeReport("THe fingerprint is already registered");
-                    throw new IllegalArgumentException("FINGERPRINT ALREADY REGISTERED!");
-                }
+                    throw new IllegalArgumentException("FINGERPRINT ALREADY REGISTERED!");              
+                }               
             }
             makeReport("The fingerprint feature set was created.");
             DPFPFeatureSet features 
