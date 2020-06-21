@@ -55,7 +55,7 @@ public class Database {
     public static Connection getCon() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/finalyearproject", "root", "");
+            con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/theEvansFinger", "root", "");
             return con;
         } catch (SQLException e) {
             return null;
