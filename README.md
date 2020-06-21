@@ -37,4 +37,4 @@ The libraries required for the finger print scanner to work with netbeans.
 <hr>
 I assume you have the SDK for  Digital Persona, if not just google or contact the support desk for Digital Persona
 <br>
-Happy Coding!!!
+<strong>Happy Coding!!!</strong>
